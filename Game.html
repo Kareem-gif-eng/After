@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Game Dev Hub | التحدي الكبير</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="Game.css" />
+</head>
+<body>
+    <div id="canvas-container"></div>
+
+    <div class="container">
+        <header class="hero">
+            <h1>Game Dev Hub</h1>
+            <p>أكبر منصة عربية لاختبار مهاراتك في هندسة وتطوير الألعاب. هل أنت مستعد للتحدي؟</p>
+        </header>
+
+        <!-- Languages Section -->
+        <div class="glass-panel">
+            <div class="section-header">
+                <i class="fas fa-code"></i>
+                <h2 class="section-title">محركات ولغات البرمجة</h2>
+            </div>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>التقنية</th>
+                            <th>نظرة سريعة</th>
+                            <th>الإجراء</th>
+                        </tr>
+                    </thead>
+                    <tbody id="lang-table-body"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Quiz Section -->
+        <div class="glass-panel" id="quiz-container">
+            <div class="section-header">
+                <i class="fas fa-gamepad"></i>
+                <h2 class="section-title">تحدي المطور المحترف</h2>
+            </div>
+
+            <div id="quiz-ui">
+                <div class="quiz-stats">
+                    <span><i class="far fa-question-circle"></i> سؤال <span id="current-q-num">1</span>/30</span>
+                    <span style="color: var(--accent)"><i class="fas fa-star"></i> النقاط: <span id="score-val">0</span></span>
+                </div>
+                <div class="progress-track">
+                    <div id="progress-fill"></div>
+                </div>
+
+                <div class="question-card" id="question-card">
+                    <div class="question-text" id="question-text">جاري تحضير التحدي...</div>
+                    <div class="options-grid" id="options-grid"></div>
+                </div>
+            </div>
+
+            <div id="result-screen" class="result-screen">
+                <div class="score-circle">
+                    <span class="score-val" id="final-score">0</span>
+                    <span class="score-label">من أصل 30</span>
+                </div>
+                <h2 style="font-size: 2rem; margin-bottom: 10px;">انتهى الاختبار!</h2>
+                <p id="result-message" style="margin-bottom: 30px; opacity: 0.8; font-size: 1.2rem;"></p>
+                <button class="btn-primary" onclick="restartQuiz()">
+                    <i class="fas fa-redo"></i> تحدي جديد
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="details-modal">
+        <div class="modal-card">
+            <div class="close-modal" onclick="closeModal()">✕</div>
+            <div id="modal-body"></div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
+    
+    <script src="Game.js"></script>
+</body>
+</html>

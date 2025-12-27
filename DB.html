@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>أكاديمية هندسة البيانات</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="DB.css">
+</head>
+<body>
+
+<div id="canvas-container"></div>
+
+<div class="main-content">
+    <h1>مسار مهندس البيانات التفاعلي</h1>
+    <p style="text-align: center;">اضغط على أي درس لعرض التفاصيل</p>
+
+    <div class="lessons-grid">
+        <div class="lesson-card" onclick="showDetails('تصميم قواعد البيانات', 'هذا الدرس يغطي كيفية بناء الـ ERD والـ Schema وتطبيع البيانات (Normalization) لضمان عدم التكرار وكفاءة الاستعلام.')">
+            <div class="icon">🗄️</div>
+            <h3>1. تصميم قواعد البيانات</h3>
+            <p>تعلم كيفية بناء الهيكل الأساسي للبيانات...</p>
+        </div>
+
+        <div class="lesson-card" onclick="showDetails('لغة SQL المتقدمة', 'ستتعلم هنا الـ Window Functions، والـ CTEs، وكيفية تحسين أداء الاستعلامات الضخمة التي تتعامل مع ملايين السجلات.')">
+            <div class="icon">💻</div>
+            <h3>2. لغة SQL المتقدمة</h3>
+            <p>انتقل لمستوى المحترفين في الاستعلامات...</p>
+        </div>
+
+        <div class="lesson-card" onclick="showDetails('أدوات ETL و Pipelines', 'شرح مفصل لأدوات مثل Airflow و Spark لنقل البيانات ومعالجتها من المصادر المختلفة إلى المخازن المركزية.')">
+            <div class="icon">🔄</div>
+            <h3>3. أدوات ETL و Pipelines</h3>
+            <p>بناء أنابيب نقل البيانات الآلية...</p>
+        </div>
+
+        <div class="lesson-card" onclick="showDetails('مخازن البيانات (Big Data)', 'التعامل مع Hadoop و NoSQL و Data Lakes لتخزين كميات مهولة من البيانات غير المنظمة.')">
+            <div class="icon">📦</div>
+            <h3>4. مخازن البيانات الضخمة</h3>
+            <p>تخزين وتحليل البيانات بمقياس هائل...</p>
+        </div>
+    </div>
+
+    <h1 style="margin-top:60px;">أسئلة التقييم</h1>
+    <p style="text-align: center;">اضغط على أي سؤال لعرض الإجابة</p>
+
+    <div class="questions-grid">
+        <div class="lesson-card" onclick="showDetails('سؤال 1: ما هو الـ ERD؟', 'ERD هو مخطط يوضح العلاقات بين الجداول في قاعدة البيانات.')">
+            <div class="icon">❓</div>
+            <h3>1. ما هو الـ ERD؟</h3>
+            <p>تعرف على كيفية تمثيل العلاقات بين الجداول...</p>
+        </div>
+
+        <div class="lesson-card" onclick="showDetails('سؤال 2: ما الفرق بين SQL و NoSQL؟', 'SQL قواعد بيانات منظمة تعتمد الجداول، بينما NoSQL يمكنها تخزين البيانات غير المنظمة.')">
+            <div class="icon">❓</div>
+            <h3>2. ما الفرق بين SQL و NoSQL؟</h3>
+            <p>فهم الفرق بين قواعد البيانات التقليدية والحديثة...</p>
+        </div>
+
+        <div class="lesson-card" onclick="showDetails('سؤال 3: ما هي ETL؟', 'ETL تعني Extract, Transform, Load وهي عملية نقل ومعالجة البيانات من المصادر إلى المخزن.')">
+            <div class="icon">❓</div>
+            <h3>3. ما هي ETL؟</h3>
+            <p>تعلم كيفية معالجة البيانات بشكل آلي...</p>
+        </div>
+
+        <div class="lesson-card" onclick="showDetails('سؤال 4: ما هو Data Lake؟', 'Data Lake هو مستودع لتخزين كميات كبيرة من البيانات الخام غير المنظمة.')">
+            <div class="icon">❓</div>
+            <h3>4. ما هو Data Lake؟</h3>
+            <p>تعلم كيفية تخزين وتحليل البيانات الضخمة...</p>
+        </div>
+    </div>
+</div>
+
+<!-- النافذة المنبثقة -->
+<div id="modalOverlay" class="modal-overlay">
+    <div class="modal-box">
+        <h2 id="modalTitle">اسم الدرس/السؤال</h2>
+        <p id="modalDesc">تفاصيل ستظهر هنا...</p>
+        <button class="close-btn" onclick="hideDetails()">إغلاق النافذة</button>
+    </div>
+</div>
+    <script src="DB.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduTech Hub | Learning Tracks</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style_2.css">
+</head>
+<body>
+
+    <div id="vanta-background"></div>
+
+    <div class="container">
+        <h2>🌟 All Learning Tracks</h2>
+        <p class="subtitle">Select your path and start the journey</p>
+
+        <div class="tracks-grid">
+            <a href="index-en.html" class="track-card">
+                <i class="fas fa-code"></i>
+                <span>Frontend</span>
+            </a>
+
+            <a href="Back.html" class="track-card">
+                <i class="fas fa-server"></i>
+                <span>Backend</span>
+            </a>
+
+            <a href="design.html" class="track-card">
+                <i class="fa-brands fa-figma"></i>
+                <span>UI/UX Design</span>
+            </a>
+
+            <a href="DB.html" class="track-card">
+                <i class="fas fa-database"></i>
+                <span>Database</span>
+            </a>
+
+            <a href="Game.html" class="track-card">
+                <i class="fas fa-gamepad"></i>
+                <span>Game Dev</span>
+            </a>
+
+            <a href="DA.html" class="track-card">
+                <i class="fas fa-desktop"></i>
+                <span>Desktop Apps</span>
+            </a>
+
+            <a href="MA.html" class="track-card">
+                <i class="fas fa-mobile-alt"></i>
+                <span>Mobile Apps</span>
+            </a>
+
+            <a href="java.html" class="track-card">
+                <i class="fa-brands fa-java"></i>
+                <span>JAVA Track</span>
+            </a>
+
+            <a href="Basic to AI.html" class="track-card">
+                <i class="fas fa-brain"></i>
+                <span>AI Basics</span>
+                <div class="badge">Hot</div>
+            </a>
+
+            <a href="cyber-neon-pro.html" class="track-card" style="--accent-color: #f472b6;">
+                <i class="fas fa-terminal"></i>
+                <span>Code Editor</span>
+            </a>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
+    
+    <script>
+        // تشغيل خلفية الشبكة الـ 3D
+        VANTA.NET({
+            el: "#vanta-background",
+            mouseControls: true,
+            touchControls: true,
+            gyroControls: false,
+            minHeight: 200.00,
+            minWidth: 200.00,
+            scale: 1.00,
+            scaleMobile: 1.00,
+            color: 0x797979,        /* لون الشبكة الـ 3D */
+            backgroundColor: 0x0a0a0b, /* لون الخلفية الداكن */
+            points: 12.00,
+            maxDistance: 20.00,
+            spacing: 16.00
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>أكاديمية التصميم الذكية | 20 درساً احترافياً</title>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.globe.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+    <link rel="stylesheet" href="design.css">
+</head>
+<body>
+    <div id="vanta-canvas"></div>
+
+    <header>
+        <div style="font-weight: 900; font-size: 1.4rem;"><i class="fa-solid fa-graduation-cap"></i> DESIGN<span style="color: var(--primary);">ACADEMY</span></div>
+        <div id="scoreBox" style="font-weight: bold; color: var(--gold);"><i class="fa-solid fa-star"></i> XP: 0</div>
+    </header>
+
+    <div class="container">
+        <!-- التقدم الشخصي -->
+        <div class="user-stats">
+            <div class="level-badge" id="levelLabel">المستوى 1</div>
+            <div class="progress-container">
+                <div style="display: flex; justify-content: space-between; font-size: 0.8rem;">
+                    <span>إلى المستوى التالي</span>
+                    <span id="xpStatus">0 / 150 XP</span>
+                </div>
+                <div class="progress-bar-bg"><div class="progress-bar-fill" id="xpBar"></div></div>
+            </div>
+        </div>
+
+        <div class="grid-layout">
+            <!-- قسم الدروس الـ 20 -->
+            <section>
+                <div class="module-card">
+                    <h2 style="margin-top:0"><i class="fa-solid fa-list-check"></i> المنهج الشامل (20 درساً)</h2>
+                    <p style="font-size: 0.9rem; color: var(--text-dim); margin-bottom: 20px;">اختر درساً لتعلمه ثم اختبر معلوماتك لرفع مستواك.</p>
+                    
+                    <div class="lessons-grid" id="lessonsGrid">
+                        <!-- سيتم توليد الدروس بواسطة JavaScript -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- الجانب التفاعلي -->
+            <aside>
+                <div id="actionArea">
+                    <div class="quiz-box">
+                        <i class="fa-solid fa-rocket" style="font-size: 2.5rem; color: var(--primary); margin-bottom: 15px;"></i>
+                        <h3>تحدي المعلومات</h3>
+                        <p style="font-size: 0.9rem;">هل أنت جاهز لاختبار مهاراتك؟</p>
+                        <button class="btn-main" onclick="initQuiz()">ابدأ الاختبار العشوائي</button>
+                    </div>
+                </div>
+
+                <div class="module-card" style="margin-top: 20px; padding: 15px;">
+                    <h4 style="margin:0 0 10px 0;"><i class="fa-solid fa-medal"></i> إنجازاتك</h4>
+                    <div id="achievementsList" style="font-size: 0.8rem; display: flex; flex-wrap: wrap; gap: 5px;">
+                        <span style="color:var(--text-dim)">لا توجد أوسمة بعد..</span>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </div>
+    <script src="design.js"></script>
+</body>
+</html>

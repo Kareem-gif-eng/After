@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ultimate Polyglot 3D IDE</title>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Fira+Code:wght@400;500&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <style>
+        :root {
+            --primary: #8b5cf6;
+            --accent: #06b6d4;
+            --bg-darker: #020617;
+            --glass: rgba(15, 23, 42, 0.75);
+            --border: rgba(255, 255, 255, 0.1);
+            --text: #f8fafc;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Cairo", sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-darker);
+            color: var(--text);
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        header {
+            background: var(--glass);
+            backdrop-filter: blur(15px);
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+            z-index: 100;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-text {
+            font-weight: 900;
+            font-size: 1.1rem;
+            color: var(--accent);
+            text-shadow: 0 0 10px var(--accent);
+        }
+
+        .main-wrapper {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+            padding: 15px;
+            gap: 15px;
+            z-index: 5;
+        }
+
+        .glass-panel {
+            background: var(--glass);
+            backdrop-filter: blur(12px);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* Sidebar with custom scrollbar */
+        .sidebar {
+            width: 220px;
+            overflow-y: auto;
+        }
+
+        .sidebar::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb {
+            background: var(--accent);
+            border-radius: 10px;
+        }
+
+        .file-list {
+            padding: 10px;
+        }
+
+        .file-category {
+            font-size: 0.7rem;
+            color: #64748b;
+            margin: 15px 5px 5px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .file-item {
+            padding: 8px 12px;
+            cursor: pointer;
+            color: #cbd5e1;
+            border-radius: 6px;
+            margin-bottom: 2px;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9rem;
+        }
+
+        .file-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .file-item.active {
+            background: rgba(6, 182, 212, 0.2);
+            color: var(--accent);
+            border-right: 3px solid var(--accent);
+        }
+
+        .editor-zone {
+            flex: 1;
+        }
+
+        .tabs-container {
+            display: flex;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 5px 5px 0;
+            gap: 2px;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+
+        .tabs-container::-webkit-scrollbar {
+            height: 0;
+        }
+
+        .tab {
+            padding: 8px 15px;
+            border-radius: 6px 6px 0 0;
+            cursor: pointer;
+            font-size: 0.75rem;
+            color: #94a3b8;
+            transition: 0.3s;
+            background: rgba(15, 23, 42, 0.4);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .tab.active {
+            background: rgba(30, 41, 59, 0.8);
+            color: var(--accent);
+            border: 1px solid var(--border);
+            border-bottom: none;
+        }
+
+        .code-area {
+            flex: 1;
+            background: rgba(2, 6, 23, 0.4);
+            position: relative;
+        }
+
+        textarea {
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            color: #e2e8f0;
+            padding: 20px;
+            font-family: "Fira Code", monospace;
+            font-size: 13px;
+            border: none;
+            outline: none;
+            resize: none;
+            display: none;
+            line-height: 1.6;
+            direction: ltr;
+        }
+
+        textarea.active {
+            display: block;
+        }
+
+        .output-zone {
+            width: 350px;
+        }
+
+        .output-header {
+            padding: 10px;
+            font-size: 0.75rem;
+            background: rgba(0, 0, 0, 0.4);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        #preview-frame {
+            width: 100%;
+            flex: 1;
+            background: #fff;
+            border: none;
+            display: none;
+        }
+
+        #terminal {
+            flex: 1;
+            padding: 15px;
+            background: #000;
+            font-family: "Fira Code";
+            font-size: 11px;
+            color: #10b981;
+            overflow-y: auto;
+            white-space: pre-wrap;
+        }
+
+        .btn-action {
+            background: var(--accent);
+            border: none;
+            padding: 6px 15px;
+            border-radius: 6px;
+            color: #020617;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 0.85rem;
+        }
+
+        .btn-action:hover {
+            box-shadow: 0 0 15px var(--accent);
+            transform: translateY(-1px);
+        }
+
+        /* Icon Colors */
+        .fa-html5 {
+            color: #e34c26;
+        }
+
+        .fa-css3-alt {
+            color: #264de4;
+        }
+
+        .fa-js {
+            color: #f7df1e;
+        }
+
+        .fa-python {
+            color: #3776ab;
+        }
+
+        .fa-java {
+            color: #007396;
+        }
+
+        .fa-rust {
+            color: #dea584;
+        }
+
+        .fa-php {
+            color: #777bb4;
+        }
+
+        .fa-gem {
+            color: #cc342d;
+        }
+
+        .fa-c {
+            color: #a8b9cc;
+        }
+
+        .fa-swift {
+            color: #f05138;
+        }
+
+        .fa-golang {
+            color: #00add8;
+        }
+
+        .fa-database {
+            color: #336791;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="canvas-container"></div>
+
+    <header>
+        <div class="logo-area">
+            <i class="fas fa-cubes-stacked" style="color: var(--accent)"></i>
+            <div class="logo-text">UNIVERSAL IDE 3D</div>
+        </div>
+        <div style="display: flex; gap: 10px">
+            <button class="btn-action" onclick="runCode()">
+                <i class="fas fa-play"></i> تشغيل
+            </button>
+        </div>
+    </header>
+
+    <div class="main-wrapper">
+        <aside class="glass-panel sidebar">
+            <div class="file-list" id="sidebar-list">
+                <div class="file-category">الويب</div>
+                <div class="file-item active" onclick="switchLang('html')">
+                    <i class="fab fa-html5"></i> index.html
+                </div>
+                <div class="file-item" onclick="switchLang('css')">
+                    <i class="fab fa-css3-alt"></i> styles.css
+                </div>
+                <div class="file-item" onclick="switchLang('js')">
+                    <i class="fab fa-js"></i> script.js
+                </div>
+
+                <div class="file-category">الخوادم والنظم</div>
+                <div class="file-item" onclick="switchLang('py')">
+                    <i class="fab fa-python"></i> main.py
+                </div>
+                <div class="file-item" onclick="switchLang('java')">
+                    <i class="fab fa-java"></i> Main.java
+                </div>
+                <div class="file-item" onclick="switchLang('cpp')">
+                    <i class="fas fa-c"></i> main.cpp
+                </div>
+                <div class="file-item" onclick="switchLang('rust')">
+                    <i class="fab fa-rust"></i> main.rs
+                </div>
+                <div class="file-item" onclick="switchLang('go')">
+                    <i class="fab fa-golang"></i> main.go
+                </div>
+
+                <div class="file-category">أخرى</div>
+                <div class="file-item" onclick="switchLang('php')">
+                    <i class="fab fa-php"></i> index.php
+                </div>
+                <div class="file-item" onclick="switchLang('rb')">
+                    <i class="far fa-gem"></i> app.rb
+                </div>
+                <div class="file-item" onclick="switchLang('swift')">
+                    <i class="fab fa-swift"></i> main.swift
+                </div>
+                <div class="file-item" onclick="switchLang('sql')">
+                    <i class="fas fa-database"></i> query.sql
+                </div>
+            </div>
+        </aside>
+
+        <main class="glass-panel editor-zone">
+            <div class="tabs-container" id="tabs-bar">
+                <!-- Dynamic tabs here -->
+            </div>
+            <div class="code-area" id="editor-container">
+                <!-- Textareas will be injected or activated here -->
+            </div>
+        </main>
+
+        <section class="glass-panel output-zone">
+            <div class="output-header">
+                <span>المخرجات / المعاينة</span>
+                <i class="fas fa-terminal"></i>
+            </div>
+            <iframe id="preview-frame"></iframe>
+            <div id="terminal">
+                System Ready. Select a language and click 'Run'.
+            </div>
+        </section>
+    </div>
+
+    <script>
+        const languages = {
+            html: {
+                name: "index.html",
+                icon: "fab fa-html5",
+                code: '<!-- HTML Structure -->\n<div class="hero">\n  <h1>مرحباً بك في عالم البرمجة</h1>\n  <button>ابدأ الآن</button>\n</div>',
+            },
+            css: {
+                name: "styles.css",
+                icon: "fab fa-css3-alt",
+                code: "/* Styling */\nbody { \n  background: #0f172a; \n  color: white; \n  display: flex; \n  justify-content: center; \n  align-items: center; \n  height: 100vh; \n  font-family: sans-serif; \n}\nh1 { color: #06b6d4; text-shadow: 0 0 10px #06b6d4; }",
+            },
+            js: {
+                name: "script.js",
+                icon: "fab fa-js",
+                code: '// JavaScript Logic\nconsole.log("IDE Started Successfully");\ndocument.querySelector("button").onclick = () => alert("تم الضغط!");',
+            },
+            py: {
+                name: "main.py",
+                icon: "fab fa-python",
+                code: '# Python Code\ndef greet(name):\n    return f"Hello, {name} from Python 3D!"\n\nprint(greet("Developer"))',
+            },
+            java: {
+                name: "Main.java",
+                icon: "fab fa-java",
+                code: 'public class Main {\n    public static void main(String[] args) {\n        System.out.println("Hello from Java VM");\n    }\n}',
+            },
+            cpp: {
+                name: "main.cpp",
+                icon: "fas fa-c",
+                code: '#include <iostream>\nusing namespace std;\n\nint main() {\n    cout << "C++ High Performance" << endl;\n    return 0;\n}',
+            },
+            rust: {
+                name: "main.rs",
+                icon: "fab fa-rust",
+                code: 'fn main() {\n    println!("Rust: Memory Safety Guaranteed");\n}',
+            },
+            go: {
+                name: "main.go",
+                icon: "fab fa-golang",
+                code: 'package main\nimport "fmt"\n\nfunc main() {\n    fmt.Println("Hello from Go routine")\n}',
+            },
+            php: {
+                name: "index.php",
+                icon: "fab fa-php",
+                code: '<?php\necho "PHP Server Side Scripting";\n?>',
+            },
+            rb: {
+                name: "app.rb",
+                icon: "far fa-gem",
+                code: 'puts "Ruby: Elegant and Simple"',
+            },
+            swift: {
+                name: "main.swift",
+                icon: "fab fa-swift",
+                code: 'print("Swift: iOS & macOS Development")',
+            },
+            sql: {
+                name: "query.sql",
+                icon: "fas fa-database",
+                code: 'SELECT * FROM developers WHERE skill = "3D_IDE";',
+            },
+        };
+
+        let currentId = "html";
+        let scene, camera, renderer, starGeo, stars;
+
+        function init3D() {
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(
+                60,
+                window.innerWidth / window.innerHeight,
+                1,
+                1000
+            );
+            camera.position.z = 1;
+            camera.rotation.x = Math.PI / 2;
+
+            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document
+                .getElementById("canvas-container")
+                .appendChild(renderer.domElement);
+
+            starGeo = new THREE.BufferGeometry();
+            const positions = [];
+            for (let i = 0; i < 6000; i++) {
+                positions.push(Math.random() * 600 - 300);
+                positions.push(Math.random() * 600 - 300);
+                positions.push(Math.random() * 600 - 300);
+            }
+            starGeo.setAttribute(
+                "position",
+                new THREE.Float32BufferAttribute(positions, 3)
+            );
+
+            let sprite = new THREE.TextureLoader().load(
+                "https://threejs.org/examples/textures/sprites/disc.png"
+            );
+            let starMaterial = new THREE.PointsMaterial({
+                color: 0x06b6d4,
+                size: 0.7,
+                map: sprite,
+                transparent: true,
+            });
+
+            stars = new THREE.Points(starGeo, starMaterial);
+            scene.add(stars);
+
+            animate();
+        }
+
+        function animate() {
+            stars.rotation.y += 0.002;
+            renderer.render(scene, camera);
+            requestAnimationFrame(animate);
+        }
+
+        function setupEditor() {
+            const container = document.getElementById("editor-container");
+            const tabs = document.getElementById("tabs-bar");
+
+            Object.keys(languages).forEach((key) => {
+                const lang = languages[key];
+                // Create Textarea
+                const ta = document.createElement("textarea");
+                ta.id = `code-${key}`;
+                ta.value = lang.code;
+                ta.spellcheck = false;
+                if (key === "html") ta.classList.add("active");
+                container.appendChild(ta);
+
+                // Create Tab
+                const tab = document.createElement("div");
+                tab.className = `tab ${key === "html" ? "active" : ""}`;
+                tab.id = `tab-${key}`;
+                tab.onclick = () => switchLang(key);
+                tab.innerHTML = `<i class="${lang.icon}"></i> ${lang.name}`;
+                tabs.appendChild(tab);
+            });
+        }
+
+        function switchLang(id) {
+            currentId = id;
+            // Update UI
+            document
+                .querySelectorAll(".file-item")
+                .forEach((el) => el.classList.remove("active"));
+            document
+                .querySelectorAll(".tab")
+                .forEach((el) => el.classList.remove("active"));
+            document
+                .querySelectorAll("textarea")
+                .forEach((el) => el.classList.remove("active"));
+
+            // Set Active
+            const sidebarItem = document.querySelector(
+                `[onclick="switchLang('${id}')"]`
+            );
+            if (sidebarItem) sidebarItem.classList.add("active");
+
+            document.getElementById(`tab-${id}`).classList.add("active");
+            document.getElementById(`code-${id}`).classList.add("active");
+
+            // Auto-scroll tab into view
+            document
+                .getElementById(`tab-${id}`)
+                .scrollIntoView({
+                    behavior: "smooth",
+                    block: "nearest",
+                    inline: "center",
+                });
+        }
+
+        function runCode() {
+            const preview = document.getElementById("preview-frame");
+            const terminal = document.getElementById("terminal");
+            const currentCode = document.getElementById(`code-${currentId}`).value;
+
+            if (["html", "css", "js"].includes(currentId)) {
+                preview.style.display = "block";
+                const h = document.getElementById("code-html").value;
+                const c = `<style>${document.getElementById("code-css").value
+                    }</style>`;
+                const j = `<script>${document.getElementById("code-js").value
+                    }<\/script>`;
+                preview.srcdoc = `<html><body style="margin:0">${h}${c}${j}</body></html>`;
+                terminal.innerHTML = `[System]: Web Preview updated at ${new Date().toLocaleTimeString()}`;
+            } else {
+                preview.style.display = "none";
+                terminal.innerHTML = `[Executing ${languages[currentId].name}...]\n\n`;
+
+                // Simulate output for different languages
+                setTimeout(() => {
+                    if (currentId === "sql") {
+                        terminal.innerHTML += `| ID | Name       | Skill    |\n|----|------------|----------|\n| 1  | Developer  | 3D_IDE   |`;
+                    } else {
+                        // Extract print/console like statements for simulation
+                        const lines = currentCode.split("\n");
+                        const output = lines
+                            .filter(
+                                (l) =>
+                                    l.includes("print") ||
+                                    l.includes("echo") ||
+                                    l.includes("puts") ||
+                                    l.includes("cout")
+                            )
+                            .join("\n");
+                        terminal.innerHTML += output
+                            ? `Output:\n${output.replace(/["'()]/g, "")}`
+                            : `Program exited with code 0.`;
+                    }
+                }, 500);
+            }
+        }
+
+        window.onload = () => {
+            init3D();
+            setupEditor();
+        };
+
+        window.onresize = () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        };
+    </script>
+</body>
+
+</html>

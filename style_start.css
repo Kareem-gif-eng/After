@@ -1,0 +1,203 @@
+/* 1. إعدادات أساسية وخطوط مريحة */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #030303; /* أسود عميق جداً لدمج الخلفية */
+    color: #1f1f1f;
+    overflow: hidden; /* منع ظهور أشرطة التمرير */
+    height: 100vh;
+    width: 100vw;
+    font-family: 'Inter', sans-serif; /* خط أساسي مريح */
+    display: flex; /* لضمان التعبئة الكاملة للشاشة */
+    justify-content: center;
+    align-items: center;
+}
+
+/* 2. حاوية الصفحة الرئيسية */
+.hero {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden; /* لمنع أي تجاوزات محتملة */
+}
+
+/* 3. طبقة الـ Spline (في الخلفية) */
+.hero iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    z-index: 1; /* الطبقة الخلفية */
+}
+
+/* 4. طبقة المحتوى (فوق الـ Spline) */
+.content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2; /* الطبقة الأمامية */
+    pointer-events: none; /* خدعة السحر: السماح للماوس بالمرور عبر الفراغ */
+    display: flex; /* استخدام flexbox للموبايل */
+    flex-direction: column;
+    justify-content: space-between; /* توزيع الصناديق */
+    align-items: center; /* توسيط أفقي في الموبايل */
+}
+
+/* 5. تصميم الصناديق الزجاجية (Glassmorphism المتطور) */
+.text-box {
+    position: absolute; /* يعود absolute للدسكتوب */
+    padding: 30px;
+    
+    /* خلفية زجاجية ناعمة وشفافة أكثر */
+    background: rgba(255, 255, 255, 0.05); /* زجاج أفتح قليلاً */
+    backdrop-filter: blur(15px); /* تمويه أكبر لراحة العين */
+    -webkit-backdrop-filter: blur(15px);
+    
+    border: 1px solid rgba(255, 255, 255, 0.15); /* حدود أوضح */
+    border-radius: 25px; /* حواف أكثر دائرية */
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4); /* ظل أعمق */
+    
+    pointer-events: auto; /* إعادة تفعيل الماوس للنصوص والأزرار فقط */
+    
+    /* أنيميشن الظهور الأولي */
+    opacity: 0; /* مخفي في البداية */
+    transform: translateY(30px); /* يأتي من الأسفل */
+    animation: fadeInSlideUp 1s ease-out forwards;
+    animation-fill-mode: forwards; /* يحافظ على الحالة النهائية للأنيميشن */
+}
+
+/* تأثير الوهج (Glow) عند التحويم */
+.text-box:hover {
+    box-shadow: 0 0 30px rgba(110, 68, 255, 0.6), 0 10px 40px rgba(0, 0, 0, 0.6); /* وهج بنفسجي وظل أعمق */
+    transform: translateY(30px) scale(1.02); /* رفع خفيف مع زوم */
+}
+
+
+/* توقيت ظهور مختلف لكل صندوق لإعطاء انسيابية */
+.top { animation-delay: 0.3s; }
+.left { animation-delay: 0.6s; }
+.right { animation-delay: 0.9s; }
+
+/* تنسيق النصوص داخل الصناديق */
+.text-box h2 {
+    font-family: 'Rajdhani', sans-serif; /* خط مستقبلي للعناوين */
+    font-size: 2rem; /* حجم أكبر قليلاً */
+    font-weight: 700; /* أثقل */
+    margin-bottom: 12px;
+    letter-spacing: 1.5px;
+    color: #1f1f1f;
+    /* تدريج ألوان أنيق للعناوين */
+
+}
+
+.text-box p {
+    font-family: 'Inter', sans-serif; /* خط Inter للنصوص العادية */
+    font-size: 1rem; /* حجم مريح للقراءة */
+    color: #1f1f1f; /* رمادي فاتح لتقليل توهج الأبيض */
+    line-height: 1.7;
+    margin-bottom: 15px; /* مسافة قبل الزر */
+}
+
+/* 6. تحديد أماكن العناصر بدقة */
+
+/* الصندوق العلوي */
+.top {
+    top: 8%;
+    left: 50%;
+    transform: translateX(-50%) translateY(30px); /* بدء الحركة من هنا */
+    text-align: center;
+    max-width: 500px; /* لتقييد العرض قليلاً */
+}
+
+/* الصندوق الأيسر */
+.left {
+    top: 50%;
+    left: 8%;
+    transform: translateY(-50%) translateY(30px);
+    max-width: 380px;
+}
+
+/* الصندوق الأيمن */
+.right {
+    top: 50%;
+    right: 8%;
+    transform: translateY(-50%) translateY(30px);
+    text-align: right;
+    max-width: 380px;
+}
+
+/* 7. الزر الانسيابي المطور */
+.btn {
+    padding: 14px 35px;
+    background: linear-gradient(90deg, #6e44ff 0%, #a265ff 100%); /* تدريج أنعم */
+    color: white;
+    border: none;
+    border-radius: 30px; /* حواف أكثر أناقة */
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); /* انتقال أكثر احترافية */
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    box-shadow: 0 6px 20px rgba(110, 68, 255, 0.4);
+}
+
+.btn:hover {
+    transform: translateY(-5px) scale(1.05); /* رفع وزوم أكبر عند التحويم */
+    box-shadow: 0 12px 30px rgba(110, 68, 255, 0.6); /* ظل وهج أقوى */
+    background: linear-gradient(90deg, #8866ff 0%, #c499ff 100%);
+}
+
+/* 8. تعريف حركة الظهور (Animation Keyframes) */
+@keyframes fadeInSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(50px); /* يأتي من الأسفل أكثر */
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0); /* يستقر في مكانه */
+    }
+}
+
+/* 9. التجاوب مع الموبايل (Mobile Responsiveness) */
+@media (max-width: 992px) { /* نقطة توقف أوسع لمرونة أكبر */
+    .text-box {
+        position: relative; /* إلغاء التموضع المطلق للموبايل */
+        top: auto;
+        left: auto;
+        right: auto;
+        bottom: auto;
+        transform: none !important; /* إلغاء جميع التحويلات للتحكم الكامل */
+        width: 90%; /* عرض أكبر */
+        margin: 20px auto; /* توسيط مع مسافة بينية */
+        text-align: center;
+        background: rgba(0, 0, 0, 0.7); /* خلفية أغمق للقراءة أسهل على الموبايل */
+        animation: fadeIn 1s ease-out forwards; /* فقط ظهور بدون حركة علوية للموبايل */
+    }
+
+    /* إلغاء توقيتات التأخير لتظهر جميعاً بسرعة على الموبايل */
+    .top, .left, .right { animation-delay: 0s; } 
+
+    .content {
+        height: auto; /* ارتفاع تلقائي للمحتوى */
+        padding: 40px 20px;
+        overflow-y: auto; /* السماح بالتمرير إذا كان المحتوى أطول من الشاشة */
+    }
+    
+    .text-box h2 { font-size: 1.5rem; }
+    .text-box p { font-size: 0.9rem; }
+}
+
+@keyframes fadeIn { /* أنيميشن ظهور بسيط للموبايل */
+    from { opacity: 0; }
+    to { opacity: 1; }
+}

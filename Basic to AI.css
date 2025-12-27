@@ -1,0 +1,179 @@
+/* Basic to AI.css */
+        :root {
+            --primary-color: #00f2ff;
+            --accent-color: #bc13fe;
+            --bg-dark: #020205;
+            --card-bg: rgba(15, 20, 30, 0.85);
+            --text-main: #f0f6fc;
+            --text-dim: #94a3b8;
+            --border-color: rgba(56, 189, 248, 0.2);
+            --neon-shadow: 0 0 15px rgba(0, 242, 255, 0.3);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        #bg-canvas {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        #main-site {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 60px 20px;
+            position: relative;
+        }
+
+        .header-box {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        h1.main-title {
+            font-size: 3.5rem;
+            background: linear-gradient(to left, var(--primary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 900;
+            margin-bottom: 15px;
+        }
+
+        .subtitle {
+            color: var(--text-dim);
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .section {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            padding: 35px;
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .section:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary-color);
+            box-shadow: var(--neon-shadow);
+        }
+
+        .section i.bg-icon {
+            position: absolute;
+            bottom: -20px;
+            left: -20px;
+            font-size: 8rem;
+            opacity: 0.05;
+            color: var(--primary-color);
+        }
+
+        h2 {
+            color: var(--primary-color);
+            margin-bottom: 25px;
+            font-size: 1.6rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .concept-tag {
+            display: inline-block;
+            padding: 5px 12px;
+            background: rgba(0, 242, 255, 0.1);
+            border: 1px solid var(--primary-color);
+            border-radius: 8px;
+            font-size: 0.85rem;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+
+        ul { list-style: none; }
+        li {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+        li i { color: var(--accent-color); margin-top: 5px; }
+
+        /* Roadmap Table */
+        .roadmap-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 10px;
+            margin-top: 20px;
+        }
+
+        .roadmap-table tr {
+            background: rgba(255, 255, 255, 0.03);
+            transition: 0.3s;
+        }
+
+        .roadmap-table td {
+            padding: 20px;
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .roadmap-table td:first-child { border-radius: 12px 0 0 12px; border-left: 1px solid var(--border-color); width: 80px; text-align: center; font-weight: 800; color: var(--primary-color); }
+        .roadmap-table td:last-child { border-radius: 0 12px 12px 0; border-right: 1px solid var(--border-color); }
+
+        /* Quiz Styling Enhancements */
+        .challenge-section {
+            background: linear-gradient(135deg, rgba(188, 19, 254, 0.1), rgba(0, 242, 255, 0.1));
+            border: 1px solid var(--accent-color);
+            padding: 50px;
+            border-radius: 30px;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .option-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 18px;
+            border-radius: 12px;
+            cursor: pointer;
+            margin-bottom: 12px;
+            transition: 0.3s;
+            border: 1px solid transparent;
+            text-align: right;
+        }
+
+        .option-item:hover {
+            background: rgba(0, 242, 255, 0.2);
+            border-color: var(--primary-color);
+        }
+
+        .score-pill {
+            background: var(--accent-color);
+            padding: 5px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 768px) {
+            h1.main-title { font-size: 2.2rem; }
+            .section { padding: 20px; }
+        }

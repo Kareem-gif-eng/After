@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>موسوعة التقنيات الشاملة - 30 تقنية</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    <link rel="stylesheet" href="DA.css" />
+</head>
+<body>
+
+    <canvas id="codeCanvas"></canvas>
+
+    <header>
+        <div class="logo">
+            <i class="fas fa-microchip"></i>
+            <span>تكنو<span style="color:var(--accent)">سكوب</span> 30</span>
+        </div>
+        <div style="font-size: 0.8rem; color: var(--text-dim)">تحديث: ديسمبر 2025</div>
+    </header>
+
+    <div class="container">
+        
+        <div class="section-header">
+            <h2 class="section-title"><i class="fas fa-list-check"></i> دليل التقنيات الحديثة</h2>
+            <span style="color: var(--text-dim); font-size: 0.9rem;">(30 مادة تقنية)</span>
+        </div>
+
+        <div class="table-wrapper">
+            <div class="scroll-area">
+                <table id="techTable">
+                    <thead>
+                        <tr>
+                            <th>التقنية</th>
+                            <th>النوع / المحرك</th>
+                            <th>المجال الأساسي</th>
+                            <th>الحالة</th>
+                        </tr>
+                    </thead>
+                    <tbody id="techBody">
+                        <!-- Tech rows will be injected here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Challenge Box -->
+        <div class="challenge-container">
+            <div class="challenge-badge">تحدي اليوم</div>
+            <h3 class="challenge-q">أي من التقنيات التالية لا تعتمد على لغة JavaScript في نواتها البرمجية لتطوير الواجهات؟</h3>
+            
+            <div class="options-list">
+                <button class="opt-btn" onclick="handleSelect(this, false)">React.js</button>
+                <button class="opt-btn" onclick="handleSelect(this, true)">Flutter (Dart)</button>
+                <button class="opt-btn" onclick="handleSelect(this, false)">Vue.js</button>
+                <button class="opt-btn" onclick="handleSelect(this, false)">Angular</button>
+            </div>
+            
+            <div id="resultBox"></div>
+        </div>
+
+    </div>
+
+    <footer>
+        &copy; 2025 جميع الحقوق محفوظة - منصة تعليم البرمجة التفاعلية
+    </footer>
+
+    <script src="DA.js"></script>
+</body>
+</html>

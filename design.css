@@ -1,0 +1,148 @@
+
+        :root {
+            --primary: #748ffc; 
+            --accent-ui: #4dabf7; 
+            --accent-ux: #ffd43b; 
+            --bg-dark: #0a0a0b;
+            --glass: rgba(255, 255, 255, 0.05);
+            --text-main: #e9ecef; 
+            --text-dim: #909296;
+            --border: rgba(255, 255, 255, 0.1);
+            --success: #69db7c;
+            --error: #ff6b6b;
+            --gold: #fcc419;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            margin: 0;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        #vanta-canvas {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            opacity: 0.4; 
+        }
+
+        header {
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            background: rgba(0, 0, 0, 0.7);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+
+        .user-stats {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 25px;
+            background: var(--glass);
+            padding: 15px 25px;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            align-items: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .level-badge {
+            background: var(--primary);
+            color: #000;
+            padding: 8px 15px;
+            border-radius: 12px;
+            font-weight: 900;
+            font-size: 1.1rem;
+        }
+
+        .progress-container { flex-grow: 1; }
+        .progress-bar-bg { background: rgba(255,255,255,0.1); height: 8px; border-radius: 10px; margin-top: 8px; overflow: hidden; }
+        .progress-bar-fill { background: linear-gradient(90deg, var(--primary), var(--accent-ui)); height: 100%; width: 0%; transition: 0.5s ease; }
+
+        .grid-layout { display: grid; grid-template-columns: 1fr 350px; gap: 20px; }
+
+        .module-card {
+            background: var(--glass);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 25px;
+            backdrop-filter: blur(15px);
+            margin-bottom: 20px;
+        }
+
+        /* تنسيق قائمة الدروس الـ 20 */
+        .lessons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 15px;
+            max-height: 600px;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+
+        .lessons-grid::-webkit-scrollbar { width: 5px; }
+        .lessons-grid::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
+
+        .lesson-item {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border);
+            padding: 15px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .lesson-item:hover { 
+            background: rgba(116, 143, 252, 0.15); 
+            border-color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .lesson-icon {
+            width: 40px; height: 40px; background: rgba(116, 143, 252, 0.2);
+            border-radius: 10px; display: flex; align-items: center; justify-content: center;
+            color: var(--primary); font-size: 1.2rem;
+        }
+
+        /* نافذة الاختبار المنبثقة */
+        .quiz-box {
+            background: rgba(0,0,0,0.6);
+            border: 2px solid var(--primary);
+            border-radius: 24px;
+            padding: 30px;
+            text-align: center;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .btn-main {
+            background: linear-gradient(135deg, var(--primary), var(--accent-ui));
+            color: white; border: none; padding: 12px 30px; border-radius: 50px;
+            font-size: 1rem; font-weight: 700; cursor: pointer; transition: 0.3s;
+        }
+
+        .options-grid { display: grid; grid-template-columns: 1fr; gap: 10px; margin-top: 20px; }
+        
+        .opt-btn {
+            background: rgba(255,255,255,0.05); border: 1px solid var(--border);
+            padding: 15px; border-radius: 12px; color: white; cursor: pointer; text-align: right;
+        }
+
+        .correct { background: var(--success) !important; color: #000 !important; }
+        .wrong { background: var(--error) !important; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        @media (max-width: 900px) { .grid-layout { grid-template-columns: 1fr; } }
